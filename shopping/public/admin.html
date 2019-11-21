@@ -9,7 +9,7 @@
 
 <body>
   <div id="admin" class="content">
-    <h1>Store Managemnt Interface</h1>
+    <h1>Super Special Shopping Admin</h1>
     <div class="add">
       <form v-on:submit.prevent="addProduct">
         <p>Product Name <input v-model="name"></p>
@@ -18,47 +18,18 @@
           <input type="submit" value="Add Product">
         </p>
       </form>
-      </div>
-      <div>
-        <input type="file" name="photo" @change="fileChanged">
-        <button @click="upload">Upload</button>
-      </div>
+    </div>
+    <form>
+      <input type="file" name="photo" @change="fileChanged">
+      <button @click="upload">Upload Photo</button>
       <p>uploaded photo url: {{photoURL}}</p>
-      <h1>Current Products</h1>
-        <div v-for="product in products">
-          <p><button v-on:click="deleteProduct(product)">delete</button>
-          {{product.name}} - price ${{product.price}} -  ordered {{product.numOrdered}} </p>
-          <img v-bind:src="product.url" height="100px">
-        </div>
-      <!-- <div class="upload" v-if="addItem">
-        <h2>{{addItem.title}}</h2>
-        <img :src="addItem.path" />
-        <p>{{addItem.description}}</p>
-      </div>
+    </form>
+    <h1>Current Products</h1>
+    <div class="productDescription" v-for="product in products">
+      <p>{{product.name}} - price ${{product.price}} - ordered {{product.numOrdered}}
+        <button v-on:click="deleteProduct(product)">delete</button> </p>
+      <img v-bind:src="product.url" height="100px">
     </div>
-    <div class="heading">
-      <div class="circle">2</div>
-      <h2>Edit/Delete an Item</h2>
-    </div>
-    <div class="edit">
-      <div class="form">
-        <input v-model="findTitle" placeholder="Search">
-        <div class="suggestions" v-if="suggestions.length > 0">
-          <div class="suggestion" v-for="s in suggestions" @click="selectItem(s)">{{s.title}}
-          </div>
-        </div>
-      </div>
-      <div class="upload" v-if="findItem">
-        <input v-model="findItem.title"><br>
-        <textarea v-model="findItem.description"></textarea>
-        <p></p>
-        <img :src="findItem.path" />
-      </div>
-      <div class="actions" v-if="findItem">
-        <button @click="deleteItem(findItem)">Delete</button>
-        <button @click="editItem(findItem)">Edit</button>
-      </div>
-    </div> -->
   </div>
 
   <div class="footer">

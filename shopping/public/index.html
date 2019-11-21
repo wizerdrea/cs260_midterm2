@@ -8,21 +8,26 @@
 </head>
 
 <body>
-  <div class="header">
-    <div class="logo">
-      <img src="images/ordinary.png">
-    </div>
-    <div class="title">
-      <h2>CS 260</h2>
-      <h1>Museum of Ordinary Objects</h1>
-    </div>
-  </div>
-  <div id="app" class="content">
-    <section class="image-gallery">
-      <div class="image" v-for="item in items">
-        <h2>{{item.title}}</h2>
-        <img :src="item.path" />
-        <p class="description"> {{item.description}}</p>
+  <h1>Super Special Shopping</h1>
+  <h1>Current Products</h1>
+  <div id="app">
+    <form class="stuff" v-on:submit.prevent="submitPurchases">
+      <div class="productDescription" v-for="product in products">
+        <p>
+          <input type="checkbox" v-bind:name="product._id" v-bind:value="product._id" v-model:checked="product.checked"> {{product.name}} - price ${{product.price}}
+          
+        </p>
+        <img v-bind:src="product.url" height="100px">
+      </div>
+      <input type="submit" value="Submit Purchase">
+    </form>
+    <h1>Shopping Cart</h1>
+    <div class="productDescription" v-for="product in shoppingCart">
+        <p>
+          {{product.name}} - price ${{product.price}}
+          
+        </p>
+        <img v-bind:src="product.url" height="100px">
       </div>
   </div>
   <div class="footer">

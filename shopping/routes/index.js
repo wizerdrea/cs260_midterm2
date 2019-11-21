@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost:27017/shopping', {
 });
 
 // Configure multer so that it will upload to '/public/images'
-const multer = require('multer')
+const multer = require('multer');
 const upload = multer({
     dest: './public/images/',
     limits: {
@@ -28,6 +28,7 @@ const itemSchema = new mongoose.Schema({
     price: String,
     url: String,
     numOrdered: Number,
+    checked: Boolean,
 });
 
 // Create a model for items in the museum.
@@ -39,7 +40,8 @@ router.post('/api/addProduct', async(req, res) => {
         name: req.body.name,
         price: req.body.price,
         url: req.body.url,
-        numOrdered: 0
+        numOrdered: 0,
+        checked: false
     });
     try {
         await newProduct.save();
@@ -73,6 +75,22 @@ router.param('id', function(req, res, next, id) {
 router.delete('/api/products/:id', async(req, res) => {
     try {
         await Item.deleteOne({ _id: req.id });
+        res.sendStatus(200);
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+});
+
+router.put('/api/products', async(req, res) => {
+    try {
+        for (let i = 0; i < req.body.items.length; ++i)
+        {
+            var item = await Item.findOne({ _id: req.body.items[i] });
+            item.numOrdered += 1;
+            await item.save();
+        }
         res.sendStatus(200);
     }
     catch (error) {

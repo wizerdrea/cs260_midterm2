@@ -9,14 +9,27 @@ var app = new Vue({
     description: "",
     file: null,
     addItem: null,
-    products: [],
+    rawProducts: [],
     findTitle: "",
     findItem: null,
     photoURL: "",
   },
   computed: {
-    suggestions() {
-      return this.items.filter(item => item.title.toLowerCase().startsWith(this.findTitle.toLowerCase()));
+    products() {
+      let returnList = [];
+      let test = this.rawProducts.map(a => { return a.name; }).sort();
+      for (let i = 0; i < test.length; ++i)
+      {
+        for (let j = 0; j < this.rawProducts.length; ++j)
+        {
+          if (this.rawProducts[j].name == test[i])
+          {
+            returnList.push(this.rawProducts[j]);
+            break;
+          }
+        }
+      }
+      return returnList;
     }
   },
   created() {
@@ -49,7 +62,7 @@ var app = new Vue({
     async getProducts() {
       try {
         let response = await axios.get("/api/products");
-        this.products = response.data;
+        this.rawProducts = response.data;
         return true;
       }
       catch (error) {
